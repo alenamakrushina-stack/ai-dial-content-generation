@@ -40,7 +40,12 @@ async def _save_images(attachments: list[Attachment]):
     #  1. Create DIAL bucket client
     #  2. Iterate through Images from attachments, download them and then save here
     #  3. Print confirmation that image has been saved locally
-    raise NotImplementedError
+    dial_bucket_client = DialBucketClient(API_KEY, DIAL_URL)
+    for attachment in attachments:
+        image_bytes = dial_bucket_client.get_file(attachment.url)
+        with open(attachment.title, "wb") as image_file:
+            image_file.write(image_bytes)
+    print(f"Images have been saved locally")
 
 
 def start() -> None:
@@ -51,7 +56,14 @@ def start() -> None:
     #  4. Try to configure the picture for output via `custom_fields` parameter.
     #    - Documentation: See `custom_fields`. https://dialx.ai/dial_api#operation/sendChatCompletionRequest
     #  5. Test it with the 'imagegeneration@005' (Google image generation model)
-    raise NotImplementedError
+    dial_model_client = DialModelClient(API_KEY, DIAL_URL)
+    response = dial_model_client.images.generate(
+        model="imagegeneration@005",
+        prompt="Sunny day on Bali",
+        custom_fields={"size": Size.square, "style": Style.natural, "quality": Quality.hd},
+    )
+    attachments = response.data
+    _save_images(attachments)
 
 
 start()
