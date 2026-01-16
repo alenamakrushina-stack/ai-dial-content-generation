@@ -1,14 +1,15 @@
 from dataclasses import dataclass
+from typing import Optional, Dict, List
 
 
 @dataclass
 class Attachment:
-    title: str | None = None
-    data: str | None = None
-    type: str | None = None
-    url: str | None = None
+    title: Optional[str] = None
+    data: Optional[str] = None
+    type: Optional[str] = None
+    url: Optional[str] = None
 
-    def to_dict(self) -> dict[str, str | None]:
+    def to_dict(self) -> Dict[str, Optional[str]]:
         return {
             "title": self.title,
             "data": self.data,
@@ -19,9 +20,9 @@ class Attachment:
 
 @dataclass
 class CustomContent:
-    attachments: list[Attachment]
+    attachments: List[Attachment]
 
-    def to_dict(self) -> dict[str, list[dict]]:
+    def to_dict(self) -> Dict[str, List[dict]]:
         return {
             "attachments": [attachment.to_dict() for attachment in self.attachments]
         }

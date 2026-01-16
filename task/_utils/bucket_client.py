@@ -1,5 +1,5 @@
 from io import BytesIO
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import httpx
 
@@ -8,8 +8,8 @@ class DialBucketClient:
     def __init__(self, api_key: str , base_url: str):
         self.api_key = api_key
         self.base_url = base_url
-        self._bucket_id: str | None = None
-        self._client: httpx.AsyncClient | None = None
+        self._bucket_id: Optional[str] = None
+        self._client: Optional[httpx.AsyncClient] = None
 
     async def __aenter__(self):
         self._client = httpx.AsyncClient(

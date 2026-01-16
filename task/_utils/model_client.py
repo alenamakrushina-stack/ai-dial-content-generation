@@ -1,11 +1,13 @@
 import json
-from typing import Any
-
+from typing import Any, List, Dict, Optional
+import dotenv
 import requests
 
 from task._models.message import Message
 from task._utils.request import print_request
 
+
+dotenv.load_dotenv()
 
 class DialModelClient:
     _endpoint: str
@@ -21,13 +23,13 @@ class DialModelClient:
         self._api_key = api_key
 
 
-    def get_completion(self, messages: list[Message], custom_fields: dict[str, Any] | None = None, **kwargs) -> Message:
+    def get_completion(self, messages: List[Message], custom_fields: Optional[Dict[str, Any]] = None, **kwargs) -> Message:
         headers = {
-            "api-key": self._api_key,
+            "Api-Key": self._api_key,
             "Content-Type": "application/json"
         }
 
-        request_data: dict[str, Any] = {
+        request_data: Dict[str, Any] = {
             "messages": [msg.to_dict() for msg in messages],
             **kwargs
         }

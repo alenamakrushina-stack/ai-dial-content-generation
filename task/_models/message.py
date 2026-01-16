@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional, Dict
 
 from task._models.custom_content import CustomContent
 from task._models.role import Role
@@ -9,11 +9,11 @@ from task._models.role import Role
 class Message:
     role: Role
     content: str
-    custom_content: CustomContent | None = None
+    custom_content: Optional[CustomContent] = None
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         """Convert Message to dictionary representation."""
-        result: dict[str, Any] = {
+        result: Dict[str, Any] = {
             "role": self.role.value,
             "content": self.content
         }
